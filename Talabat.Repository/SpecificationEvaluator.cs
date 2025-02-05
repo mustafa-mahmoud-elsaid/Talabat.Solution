@@ -17,6 +17,10 @@ namespace Talabat.Repository
 
             if(specification.Criteria is not null)
                 query = query.Where(specification.Criteria);
+            if (specification.OrderBy is not null)
+                query = query.OrderBy(specification.OrderBy);
+            else if (specification.OrderByDesc is not null)
+                query = query.OrderByDescending(specification.OrderByDesc);
 
             query = specification.Includes.Aggregate(query, (currentQuery, includeExp) => currentQuery.Include(includeExp));
 
