@@ -10,7 +10,7 @@ namespace Talabat.Repository.Data
 {
     public static class StoreContextSeeding
     {
-        public static async Task Seed(StoreDbContext _dbContext)
+        public static async Task SeedAsync(StoreDbContext _dbContext)
         {
             if (_dbContext.ProductBrands.Count() == 0)
             {
