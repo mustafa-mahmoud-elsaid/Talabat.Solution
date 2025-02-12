@@ -1,16 +1,21 @@
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
+using System.Text;
 using Talabat.APIs.Errors;
 using Talabat.APIs.Helpers;
 using Talabat.APIs.Middleware;
 using Talabat.Core.Entities.Identity;
 using Talabat.Core.Repositories.Contract;
+using Talabat.Core.Services.Contract;
 using Talabat.Repository;
 using Talabat.Repository.Data;
 using Talabat.Repository.IdentityStore;
+using Talabat.Service;
 
 namespace Talabat.APIs
 {
@@ -66,7 +71,25 @@ namespace Talabat.APIs
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityDbContext>();
-            builder.Services.AddAuthentication();
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = builder.Configuration["JWT:issuer"],
+                    ValidateAudience = true,
+                    ValidAudience = builder.Configuration["JWT:audience"],
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:securityKey"]!))
+                };
+            });
+
+            builder.Services.AddScoped<ITokenService, TokenService>();
             #endregion
 
             var app = builder.Build();
@@ -82,11 +105,12 @@ namespace Talabat.APIs
             app.UseStatusCodePagesWithReExecute("/errors/{0}");//just one request
             app.UseHttpsRedirection();
             //app.UseStatusCodePagesWithRedirects("/errors/{0}");//if the endpoint or unauthorize request happened it will generate redirect request 301 and go to the end point
-            app.UseAuthorization();
 
 
             app.MapControllers();
             app.UseStaticFiles();
+            app.UseAuthentication();
+            app.UseAuthorization();
             #endregion
 
             using var scope = app.Services.CreateScope();

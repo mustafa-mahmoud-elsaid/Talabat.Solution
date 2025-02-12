@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
+
 namespace Talabat.APIs.Controllers
 {
     public class ProductsController : BaseController
@@ -24,6 +26,7 @@ namespace Talabat.APIs.Controllers
 
         #region Get Products
         [HttpGet()]
+        [Authorize]
         public async Task<ActionResult<IReadOnlyList<ProductPagination<ProductToReturnDTO>>>> GetAll([FromQuery] ProductSpecParams productParams)
         {
             var spec = new ProductWithBrandAndCategorySpecifications(productParams);
