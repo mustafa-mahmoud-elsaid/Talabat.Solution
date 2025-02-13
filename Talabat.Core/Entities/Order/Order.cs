@@ -14,7 +14,7 @@ namespace Talabat.Core.Entities.Order
             
         }
 
-        public Order(string buyerEmail, Address shippingAddress, ICollection<OrderItem> orderItem, DeliveryMethod deliveryMethod, decimal subtotal)
+        public Order(string buyerEmail, Address shippingAddress, ICollection<OrderItem> orderItem, DeliveryMethod? deliveryMethod, decimal subtotal)
         {
             BuyerEmail = buyerEmail;
             ShippingAddress = shippingAddress;
@@ -28,7 +28,7 @@ namespace Talabat.Core.Entities.Order
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
         public Address ShippingAddress { get; set; } = null!;
         public ICollection<OrderItem> OrderItem { get; set; } = new HashSet<OrderItem>();
-        public DeliveryMethod DeliveryMethod { get; set; } = null!;
+        public DeliveryMethod? DeliveryMethod { get; set; }
         public decimal Subtotal{ get; set; }
 
         //[NotMapped]
