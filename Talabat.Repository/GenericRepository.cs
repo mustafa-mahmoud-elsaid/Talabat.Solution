@@ -45,6 +45,6 @@ namespace Talabat.Repository
 
         public void Update(T entity) => _dbContext.Update(entity);
 
-        public void DeleteAsync(T entity) => _dbContext.Remove(entity);
+        public void Delete(T entity) => _dbContext.Remove(entity);
     }
 }

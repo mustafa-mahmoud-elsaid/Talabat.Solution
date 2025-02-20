@@ -10,12 +10,7 @@ namespace Talabat.Core.Repositories.Contract
 {
     public interface IUnitOfWork : IAsyncDisposable
     {
-        public IGenericRepository<Product> ProductsRepo { get; set; }
-        public IGenericRepository<ProductBrand> ProductBrandsRepo { get; set; }
-        public IGenericRepository<ProductCategory> ProductCategoriesRepo { get; set; }
-        public IGenericRepository<OrderItem> OrderItemsRepo { get; set; }
-        public IGenericRepository<DeliveryMethod> DeliveryMethodsRepo { get; set; }
-        public IGenericRepository<Order> OrdersRepo { get; set; }
+        IGenericRepository<TEntity> Repository<TEntity>() where TEntity : BaseEntity;
         Task<int> CompleteAsync();
     }
 }

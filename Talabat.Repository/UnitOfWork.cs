@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,22 +14,22 @@ namespace Talabat.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly StoreDbContext _dbContext;
+        private Hashtable repos;
 
-        public IGenericRepository<Product> ProductsRepo { get; set; }
-        public IGenericRepository<ProductBrand> ProductBrandsRepo { get; set; }
-        public IGenericRepository<ProductCategory> ProductCategoriesRepo { get; set; }
-        public IGenericRepository<OrderItem> OrderItemsRepo { get; set; }
-        public IGenericRepository<DeliveryMethod> DeliveryMethodsRepo { get; set; }
-        public IGenericRepository<Order> OrdersRepo { get; set; }
         public UnitOfWork(StoreDbContext dbContext)
         {
             _dbContext = dbContext;
-            ProductsRepo = new GenericRepository<Product>(_dbContext);
-            ProductBrandsRepo = new GenericRepository<ProductBrand>(_dbContext);
-            ProductCategoriesRepo = new GenericRepository<ProductCategory>(_dbContext);
-            OrderItemsRepo = new GenericRepository<OrderItem>(_dbContext);
-            DeliveryMethodsRepo = new GenericRepository<DeliveryMethod>(_dbContext);
-            OrdersRepo = new GenericRepository<Order>(_dbContext);
+            repos = new Hashtable();
+        }
+        public IGenericRepository<TEntity> Repository<TEntity>() where TEntity : BaseEntity
+        {
+            var key = typeof(TEntity).Name;
+            if(!repos.ContainsKey(key))
+            {
+                var value = new GenericRepository<TEntity>(_dbContext);
+                repos.Add(key, value);
+            }
+            return (repos[key] as GenericRepository<TEntity>)!;
         }
         public async Task<int> CompleteAsync() 
             => await _dbContext.SaveChangesAsync();

@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
 using System.Text;
 using Talabat.APIs.Errors;
+using Talabat.APIs.Extensions;
 using Talabat.APIs.Helpers;
 using Talabat.APIs.Middleware;
 using Talabat.Core.Entities.Identity;
@@ -32,10 +33,12 @@ namespace Talabat.APIs
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            #region DataBases
             builder.Services.AddDbContext<StoreDbContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            });
+                {
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                });
             builder.Services.AddDbContext<IdentityDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
@@ -44,12 +47,10 @@ namespace Talabat.APIs
             {
                 var connection = builder.Configuration.GetConnectionString("RedisConnection");
                 return ConnectionMultiplexer.Connect(connection!);
-            });
-            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            builder.Services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));
-            //builder.Services.AddAutoMapper(config => config.AddProfile(new MappingProfile()));
-            builder.Services.AddAutoMapper(typeof(MappingProfile));
+            }); 
+            #endregion
 
+            builder.Services.AddApplicationService();
             //Validation Error handling
             builder.Services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -89,7 +90,7 @@ namespace Talabat.APIs
                 };
             });
 
-            builder.Services.AddScoped<ITokenService, TokenService>();
+           
             #endregion
 
             var app = builder.Build();
@@ -130,7 +131,7 @@ namespace Talabat.APIs
             catch (Exception ex)
             {
                 var logger = _loggerFactory.CreateLogger<Program>();
-                logger.LogError(ex, "An error occured when trying to apply the migration");
+                logger.LogError(ex, "An error occurred when trying to apply the migration");
             }
             app.Run();
         }
