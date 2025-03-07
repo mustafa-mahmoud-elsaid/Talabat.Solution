@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Talabat.APIs.Attributes;
 using Talabat.Core.Services.Contract;
 
 namespace Talabat.APIs.Controllers
@@ -21,6 +22,7 @@ namespace Talabat.APIs.Controllers
         #endregion
 
         #region Get Products
+        [RedisCache]
         [HttpGet()]
         //[Authorize]
         public async Task<ActionResult<IReadOnlyList<ProductPagination<ProductToReturnDTO>>>> GetAll([FromQuery] ProductSpecParams productParams)
