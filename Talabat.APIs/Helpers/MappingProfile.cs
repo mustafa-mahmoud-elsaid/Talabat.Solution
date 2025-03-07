@@ -10,6 +10,7 @@ namespace Talabat.APIs.Helpers
     {
         public MappingProfile()
         {
+            
             CreateMap<Product, ProductToReturnDTO>()
                 .ForMember(D => D.Brand, O => O.MapFrom(S => S.Brand.Name))
                 .ForMember(D => D.Category, O => O.MapFrom(S => S.Category.Name))
@@ -19,7 +20,8 @@ namespace Talabat.APIs.Helpers
             CreateMap<Order, OrderToReturnDTO>()
                 .ForMember(D => D.DeliveryMethod, O => O.MapFrom(S => S.DeliveryMethod!.ShortName))
                 .ForMember(D => D.DeliveryMethodCost, O => O.MapFrom(S => S.DeliveryMethod!.Cost))
-                .ForMember(D => D.OrderItem, O => O.MapFrom(S => S.OrderItem));
+                .ForMember(D => D.OrderItem, O => O.MapFrom(S => S.OrderItem))
+                .ForMember(D => D.ShipToAddress, O => O.MapFrom(S => S.ShippingAddress));
 
             CreateMap<OrderItem, OrderItemDTO>()
                 .ForMember(D => D.ProductId, O => O.MapFrom(S => S.Product.Id))

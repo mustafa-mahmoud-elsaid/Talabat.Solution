@@ -25,6 +25,10 @@ namespace Talabat.Repository.Data.Configurations
                 .OnDelete(DeleteBehavior.SetNull);
             builder.Property(O => O.Subtotal).HasColumnType("decimal(18, 2)");
 
+            builder.HasMany(O=>O.OrderItem)
+                .WithOne()
+                .HasForeignKey("OrderId")
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

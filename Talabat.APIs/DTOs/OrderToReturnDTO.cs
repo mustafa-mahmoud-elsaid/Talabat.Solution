@@ -8,7 +8,7 @@ namespace Talabat.APIs.DTOs
         public string BuyerEmail { get; set; } = null!;
         public DateTimeOffset OrderDate { get; set; }
         public string Status { get; set; } = null!;
-        public Address ShippingAddress { get; set; } = null!;
+        public Address ShipToAddress { get; set; } = null!;
         public ICollection<OrderItemDTO> OrderItem { get; set; } = new HashSet<OrderItemDTO>();
         public string DeliveryMethod { get; set; } = null!;
         public decimal DeliveryMethodCost { get; set; }

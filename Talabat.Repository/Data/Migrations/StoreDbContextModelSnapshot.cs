@@ -47,7 +47,7 @@ namespace Talabat.Repository.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeliveryMethods");
+                    b.ToTable("DeliveryMethods", (string)null);
                 });
 
             modelBuilder.Entity("Talabat.Core.Entities.Order.Order", b =>
@@ -62,7 +62,7 @@ namespace Talabat.Repository.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DeliveryMethodId")
+                    b.Property<int>("DeliveryMethodId")
                         .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("OrderDate")
@@ -83,7 +83,7 @@ namespace Talabat.Repository.Data.Migrations
 
                     b.HasIndex("DeliveryMethodId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Talabat.Core.Entities.Order.OrderItem", b =>
@@ -107,7 +107,7 @@ namespace Talabat.Repository.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("Talabat.Core.Entities.Product", b =>
@@ -145,7 +145,7 @@ namespace Talabat.Repository.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Talabat.Core.Entities.ProductBrand", b =>
@@ -162,7 +162,7 @@ namespace Talabat.Repository.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductBrands");
+                    b.ToTable("ProductBrands", (string)null);
                 });
 
             modelBuilder.Entity("Talabat.Core.Entities.ProductCategory", b =>
@@ -179,7 +179,7 @@ namespace Talabat.Repository.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategories");
+                    b.ToTable("ProductCategories", (string)null);
                 });
 
             modelBuilder.Entity("Talabat.Core.Entities.Order.Order", b =>
@@ -190,7 +190,7 @@ namespace Talabat.Repository.Data.Migrations
                         .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
-                    b.OwnsOne("Talabat.Core.Entities.Order.Address", "ShippingAddress", b1 =>
+                    b.OwnsOne("Talabat.Core.Entities.Order.Order.ShippingAddress#Talabat.Core.Entities.Order.Address", "ShippingAddress", b1 =>
                         {
                             b1.Property<int>("OrderId")
                                 .HasColumnType("int");
@@ -203,11 +203,11 @@ namespace Talabat.Repository.Data.Migrations
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<string>("FirstName")
+                            b1.Property<string>("FName")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<string>("LastName")
+                            b1.Property<string>("LName")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
@@ -217,7 +217,7 @@ namespace Talabat.Repository.Data.Migrations
 
                             b1.HasKey("OrderId");
 
-                            b1.ToTable("Orders");
+                            b1.ToTable("Orders", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderId");
@@ -235,7 +235,7 @@ namespace Talabat.Repository.Data.Migrations
                         .WithMany("OrderItem")
                         .HasForeignKey("OrderId");
 
-                    b.OwnsOne("Talabat.Core.Entities.Order.ProductItemOrdered", "Product", b1 =>
+                    b.OwnsOne("Talabat.Core.Entities.Order.OrderItem.Product#Talabat.Core.Entities.Order.ProductItemOrdered", "Product", b1 =>
                         {
                             b1.Property<int>("OrderItemId")
                                 .HasColumnType("int");
@@ -253,7 +253,7 @@ namespace Talabat.Repository.Data.Migrations
 
                             b1.HasKey("OrderItemId");
 
-                            b1.ToTable("OrderItems");
+                            b1.ToTable("OrderItems", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderItemId");

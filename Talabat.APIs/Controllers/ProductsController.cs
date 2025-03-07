@@ -40,7 +40,7 @@ namespace Talabat.APIs.Controllers
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductToReturnDTO>> Get(int id)
-        {;
+        {
 
             var result = await _productService.GetProductAsync(id);
 
@@ -57,7 +57,7 @@ namespace Talabat.APIs.Controllers
             => Ok(await _productService.GetBrandsAsync());
 
 
-        [HttpGet("Categories")]
+        [HttpGet("types")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetCategories()
             => Ok(await _productService.GetCategoriesAsync()); 
         #endregion

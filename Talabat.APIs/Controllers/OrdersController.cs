@@ -24,7 +24,7 @@ namespace Talabat.APIs.Controllers
         public async Task<ActionResult<OrderToReturnDTO>> CreateOrder(OrderDTO model)
         {
             var buyerEmail = User.FindFirstValue(ClaimTypes.Email);
-            var address = _mapper.Map<AddressDTO, Address>(model.ShippingAddress);
+            var address = _mapper.Map<AddressDTO, Address>(model.ShipToAddress);
             var result = await _orderService
                 .CreateOrderAsync(buyerEmail!, model.BasketId, model.DeliveryMethodId,address);
             if (result is null) return BadRequest(new ApiResponse(400));

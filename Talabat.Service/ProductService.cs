@@ -28,7 +28,7 @@ namespace Talabat.Service
         public async Task<Product?> GetProductAsync(int productId)
         {
             var spec = new ProductWithBrandAndCategorySpecifications(productId);
-            var result = await _unitOfWork.Repository<Product>().GetWithSpecAsync(spec);
+            var result = await _unitOfWork.Repository<Product>().GetEntityWithSpecAsync(spec);
             return result;
         }
         public async Task<IReadOnlyList<ProductBrand>> GetBrandsAsync()

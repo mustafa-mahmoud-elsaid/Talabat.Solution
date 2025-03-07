@@ -10,6 +10,6 @@ namespace Talabat.APIs.DTOs
         [Required]
         public int DeliveryMethodId { get; set; }
         
-        public AddressDTO ShippingAddress { get; set; } = null!;
+        public AddressDTO ShipToAddress { get; set; } = null!;
     }
 }

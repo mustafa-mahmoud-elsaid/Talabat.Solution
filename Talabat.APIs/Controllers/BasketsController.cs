@@ -12,10 +12,10 @@ namespace Talabat.APIs.Controllers
             _basketRepo = basketRepo;
         }
         [HttpGet]
-        public async Task<ActionResult<CustomerBasket>> GetBasket(string basketId)
+        public async Task<ActionResult<CustomerBasket>> GetBasket(string id)
         {
-            var basket = await _basketRepo.GetBasketAsync(basketId);
-            return basket is null ? new CustomerBasket() { Id = basketId } : basket; 
+            var basket = await _basketRepo.GetBasketAsync(id);
+            return basket is null ? new CustomerBasket() { Id = id } : basket; 
         }
 
         [HttpPost]

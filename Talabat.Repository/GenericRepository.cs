@@ -28,7 +28,7 @@ namespace Talabat.Repository
             return await ApplySpecification(specification).AsNoTracking().ToListAsync();
         }
 
-        public async Task<T?> GetWithSpecAsync(ISpecification<T> specification)
+        public async Task<T?> GetEntityWithSpecAsync(ISpecification<T> specification)
         {
             return await ApplySpecification(specification).AsNoTracking().FirstOrDefaultAsync();
         }

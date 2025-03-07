@@ -47,7 +47,14 @@ namespace Talabat.APIs
             {
                 var connection = builder.Configuration.GetConnectionString("RedisConnection");
                 return ConnectionMultiplexer.Connect(connection!);
-            }); 
+            });
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("CORS", policy =>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"/*builder.Configuration["FrontBaseUrl"]!*/);
+                });
+            });
             #endregion
 
             builder.Services.AddApplicationService();
@@ -90,7 +97,7 @@ namespace Talabat.APIs
                 };
             });
 
-           
+
             #endregion
 
             var app = builder.Build();
@@ -110,6 +117,7 @@ namespace Talabat.APIs
 
             app.MapControllers();
             app.UseStaticFiles();
+            app.UseCors("CORS");
             app.UseAuthentication();
             app.UseAuthorization();
             #endregion
